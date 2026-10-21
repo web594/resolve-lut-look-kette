@@ -55,6 +55,7 @@ angelegt — die Resolve-API kann keine Nodes erzeugen; das Skript sagt genau, w
 | `referenzen/nodekette.md` | warum die Reihenfolge so ist, Werte für Node 2 |
 | `referenzen/gekaufte-luts.md` | kommerzielle Alternativen, Einstellungen, Bezugsquellen |
 | `referenzen/messwerte.md` | gemessene Kurven, frei gegen gekauft |
+| `referenzen/luts-selbst-erzeugen.md` | wie die Node-3-LUT (Fassung 2) gerechnet wird, Prüfwerte |
 | `referenzen/fallstricke.md` | was in der Praxis schiefgeht |
 | `werkzeuge/` | LUT-Erzeugung, Installation, Anwendung per Resolve-API |
 | `luts/` | die fertig erzeugten LUTs für Node 4 und 5 |
@@ -71,6 +72,10 @@ muss nichts gekauft werden.
   ARRI-Farbwandlung abgeleitet, die DaVinci Resolve bereits mitbringt — diese Datei
   gehört ihren Rechteinhabern und wird hier nicht weitergegeben. `luts_erzeugen.py`
   rechnet beide LUTs in Sekunden aus der lokalen Resolve-Installation.
+- **Node 3 heißt seit Fassung 2 `ARRI_Rec709_zu_LogC_v2.cube`** (Werkzeug
+  `lut_rec709_zu_arri_logc_v2.py`). Die alte `ARRI_Rec709_zu_LogC.cube` aus
+  `lut_rec709_zu_arri_logc.py` ist instabil bei heller Haut (kippt nach Lachsrot) und
+  bleibt nur für bestehende Projekte erhalten.
 - **Kommerzielle LUT-Sätze** sind hier ebenfalls nicht enthalten. Wer einen besitzt, kann
   damit die Nodes 3 und 4 ersetzen; welche Datei wohin gehört, steht in
   `referenzen/gekaufte-luts.md`.

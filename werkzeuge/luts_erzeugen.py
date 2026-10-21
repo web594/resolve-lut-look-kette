@@ -3,7 +3,9 @@
 
 Es entstehen:
   Sony_SLog3_zu_ARRI_Rec709.cube            (Node 2, aus der Resolve-eigenen ARRI-Wandlung)
-  ARRI_Rec709_zu_LogC.cube                  (Node 3, freie Alternative zur gekauften Wandlung)
+  ARRI_Rec709_zu_LogC_v2.cube               (Node 3, freie Alternative zur gekauften Wandlung;
+                                             stabile Fassung 2 - die alte ARRI_Rec709_zu_LogC.cube
+                                             kippt helle Haut nach Rot und wird nicht mehr erzeugt)
   Filmemulation_Negativ_Print_ARRI_LogC.cube(Node 4, freie Alternative zur gekauften Filmemulation)
   Kinolook_Kontrast_TealOrange_*.cube       (Node 5, drei Staerken)
 
@@ -36,8 +38,8 @@ def main():
 
     lauf("lut_slog3_zu_arri_rec709.py",
          dat + ["--size", str(a.size), "--out", os.path.join(a.out_dir, "Sony_SLog3_zu_ARRI_Rec709.cube")])
-    lauf("lut_rec709_zu_arri_logc.py",
-         dat + ["--size", str(a.size), "--out", os.path.join(a.out_dir, "ARRI_Rec709_zu_LogC.cube")])
+    lauf("lut_rec709_zu_arri_logc_v2.py",
+         dat + ["--size", str(a.size), "--out", os.path.join(a.out_dir, "ARRI_Rec709_zu_LogC_v2.cube")])
     lauf("lut_filmemulation_negativ_print.py", ["--size", str(a.size), "--out-dir", a.out_dir])
     lauf("lut_kinolook_tealorange.py", ["--size", str(a.size), "--out-dir", a.out_dir])
 

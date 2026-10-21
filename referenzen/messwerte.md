@@ -20,6 +20,11 @@ exakt. Das Skript gibt diesen Kontrollwert bei jedem Lauf mit aus.
 
 ## Node 3 — Rec.709 → LogC, frei gegen gekauft
 
+> Die Tabelle unten stammt von der **alten** freien Fassung (`ARRI_Rec709_zu_LogC.cube`,
+> Newton-Umkehrung). Sie ist auf der Grauachse genau, kippt aber helle Haut nach Rot.
+> Messwerte der stabilen Fassung 2 und der Vergleich alt gegen v2 stehen in
+> `luts-selbst-erzeugen.md`.
+
 Graukeil, Eingang Rec.709:
 
 | Rec.709 ein | frei erzeugt | gekauft | Abweichung |

@@ -66,7 +66,8 @@ liegt aber Rec.709 vor. Also muss das Bild zurück ins Log-Format.
 Material rund zwei Blenden unter den Arbeitspunkt, den die Film-LUTs erwarten; das Bild
 wird dunkel und flau, und Gegensteuern per Offset passt dann immer nur an einer Stelle.
 Richtig ist eine Wandlung, die exakt die Umkehrung der Rec.709-Wiedergabe aus Node 1 ist —
-`lut_rec709_zu_arri_logc.py` rechnet genau diese Umkehrung aus.
+`lut_rec709_zu_arri_logc_v2.py` rechnet diese Umkehrung aus (`ARRI_Rec709_zu_LogC_v2.cube`).
+Die ältere `lut_rec709_zu_arri_logc.py` ist instabil bei heller Haut — nicht mehr nehmen.
 
 ## Node 4 — Filmemulation
 

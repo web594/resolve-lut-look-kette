@@ -26,7 +26,7 @@ import sys
 
 STANDARD_LUTS = {
     "arri": "Look/Sony_SLog3_zu_ARRI_Rec709.cube",
-    "logc": "Look/ARRI_Rec709_zu_LogC.cube",
+    "logc": "Look/ARRI_Rec709_zu_LogC_v2.cube",   # Fassung 1 kippt helle Haut nach Rot
     "film": "Look/Filmemulation_Negativ_Print_ARRI_LogC.cube",
     "kino": "Look/Kinolook_Kontrast_TealOrange_mittel.cube",
 }

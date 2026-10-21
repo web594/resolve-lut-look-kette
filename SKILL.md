@@ -56,7 +56,7 @@ nichts gekauft werden:
 | Node | Skript | Grundlage |
 |---|---|---|
 | 1 | `lut_slog3_zu_arri_rec709.py` | rechnet S-Log3 → ARRI LogC und schickt das durch die ARRI-Wandlung, die in Resolve bereits enthalten ist |
-| 3 | `lut_rec709_zu_arri_logc.py` | kehrt genau diese ARRI-Wandlung numerisch um (Newton-Verfahren) |
+| 3 | `lut_rec709_zu_arri_logc_v2.py` | kehrt ein monotones Modell dieser ARRI-Wandlung um (Tonwertkurve je Kanal + Matrix) → `ARRI_Rec709_zu_LogC_v2.cube` |
 | 4 | `lut_filmemulation_negativ_print.py` | Modell aus Negativ-Dichtekurve, Schichtkopplung und Kopierfilm |
 | 5 | `lut_kinolook_tealorange.py` | Kontrastkurve, Schwarzanhebung, Split-Tone, Entsättigung |
 
@@ -64,6 +64,12 @@ nichts gekauft werden:
 Filmemulationen sind aus echten Filmscans gemessen und in den Farben feiner. Welche Dateien
 genau, mit welchen Einstellungen und wo es sie gibt: `referenzen/gekaufte-luts.md`.
 Gemessener Unterschied zwischen freier und gekaufter Variante: `referenzen/messwerte.md`.
+
+⚠ **Für Node 3 immer `ARRI_Rec709_zu_LogC_v2.cube` nehmen.** Die alte
+`ARRI_Rec709_zu_LogC.cube` (Werkzeug `lut_rec709_zu_arri_logc.py`, Newton-Umkehrung) ist
+instabil: ab etwa 85 % Helligkeit im Rotkanal springt sie, helle Haut wird nach der
+Filmemulation schlagartig lachsrot. Bestehende Projekte mit der alten LUT können so
+bleiben; neue Ketten bekommen v2. Details: `referenzen/luts-selbst-erzeugen.md`.
 
 ## Geteilte Nodes statt kopierter Grades
 
@@ -98,5 +104,6 @@ ohne etwas zu ändern.
 - `referenzen/nodekette.md` — warum die Reihenfolge so ist, Werte für Node 2
 - `referenzen/gekaufte-luts.md` — kommerzielle Alternativen, Einstellungen, Bezug
 - `referenzen/messwerte.md` — gemessene Kurven, frei gegen gekauft
+- `referenzen/luts-selbst-erzeugen.md` — wie Node 3 (v2) gerechnet wird, Prüfwerte alt gegen v2
 - `referenzen/fallstricke.md` — was in der Praxis schiefgeht
 - `praesentation/` — der ganze Ablauf grafisch erklärt

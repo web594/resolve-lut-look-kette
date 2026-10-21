@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
 """Erzeugt die LUT fuer Node 3 der Kette: ARRI Rec.709 -> ARRI LogC3 (Rueckwandlung).
 
+!! VERALTET - instabil bei heller Haut, lut_rec709_zu_arri_logc_v2.py nehmen !!
+Die punktweise Newton-Umkehrung bleibt ab etwa 80-85 % Rec.709 im roten Kanal haengen
+(die LUT gibt dort praktisch den Eingangswert zurueck). Nach der Filmemulation kippt
+helle Haut dadurch schlagartig nach Lachsrot/Orange, und auch kraeftige Mitten werden
+roeter. Die Fassung 2 kehrt ein monotones Modell um und hat diesen Fehler nicht.
+Dieses Skript bleibt nur fuer bestehende Projekte, die die alte LUT benutzen.
+
 Wozu? Die Filmemulations-LUTs der Alexa-Familie erwarten ARRI LogC am Eingang. Node 2
 liefert aber Rec.709, weil dort korrigiert und beurteilt wird. Node 3 dreht das Bild
 also wieder ins Log-Format zurueck - genau bis zu dem Arbeitspunkt, den die Film-LUTs
@@ -14,7 +21,7 @@ weitergegeben - das Skript liest sie lokal.
 Wichtig: Diese LUT ist eine *mathematische* Umkehrung. Kommerzielle Sets (z. B. ImpulZ
 "Alexa Rec709 to LOG-C") sind zusaetzlich auf ihre eigene Filmstock-Familie abgestimmt.
 Wer so ein Set besitzt, nimmt dessen Wandlung; wer nicht, kommt mit dieser hier sehr
-nah heran (Abweichung siehe referenzen/luts-selbst-erzeugen.md).
+nah heran (Abweichung siehe referenzen/messwerte.md).
 
 Voraussetzung:  py -m pip install numpy
 Aufruf:         py lut_rec709_zu_arri_logc.py [--dat <pfad>] [--out <pfad>] [--size 33]

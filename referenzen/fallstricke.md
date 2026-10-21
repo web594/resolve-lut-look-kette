@@ -12,6 +12,16 @@ Ergebnis: dunkel und flau. Die Tone-Mapping-Einstellung im CST ändert daran nic
 (geprüft: „DaVinci" gegen „Ohne" praktisch identisch). Gegensteuern per Offset ist eine
 Krücke, die nur an einer Stelle der Timeline passt.
 
+**Für Node 3 nicht die alte `ARRI_Rec709_zu_LogC.cube` nehmen, sondern
+`ARRI_Rec709_zu_LogC_v2.cube`.** Die alte Fassung kehrt ARRIs 3D-Wandlung punktweise per
+Newton-Verfahren um. In den Lichtern bleibt diese Suche im Rotkanal hängen: ab etwa 85 %
+Rot liefert die LUT praktisch den Eingangswert zurück statt des richtigen LogC-Werts
+(Rec.709 0,86 → LogC 0,86 statt 0,62). Nach der Filmemulation springt helle Haut dadurch
+schlagartig von natürlich (Farbton ≈ 21°) nach Lachsrot (≈ 9°), deutlich gesättigter;
+auch kräftige Mittentöne werden röter. Die Fassung 2 kehrt ein monotones Modell um und
+kann nicht springen (Messwerte: `luts-selbst-erzeugen.md`). Bestehende Projekte mit der
+alten LUT bleiben, wie sie sind — erkennbar an Lachsrot in hellen Gesichtern.
+
 **Nach der Film-LUT kommt kein Rück-Transform nach Rec.709.** Die Filmemulation wandelt
 selbst. Ein zusätzlicher CST danach macht das Bild flau.
 
@@ -74,7 +84,8 @@ gegenprüfen, welches Feld welchen Kanal bedient.
 
 ## Rechenzeit
 
-Die LUT-Erzeugung dauert je nach Rechner etwa eine halbe bis zwei Minuten — den größten
-Anteil hat die numerische Umkehrung in `lut_rec709_zu_arri_logc.py` (Newton-Verfahren
-über 35 937 Gitterpunkte). Eine feinere LUT (`--size 65`) dauert rund achtmal so lange
-und bringt sichtbar nichts, solange die Interpolation auf tetraedrisch steht.
+Die LUT-Erzeugung dauert je nach Rechner wenige Sekunden bis eine Minute. Die Node-3-LUT
+(Fassung 2) ist ein geschlossenes Modell und in Sekunden fertig; nur die alte
+Newton-Umkehrung (`lut_rec709_zu_arri_logc.py`) brauchte bis zu zwei Minuten. Eine
+feinere LUT (`--size 65`) bringt sichtbar nichts, solange die Interpolation auf
+tetraedrisch steht.

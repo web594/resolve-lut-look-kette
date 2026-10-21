@@ -5,6 +5,10 @@ Resolve durchsucht seinen LUT-Ordner nur beim Start neu - oder wenn ein Skript
 RefreshLUTList() aufruft. Genau das macht dieses Skript am Ende, damit die neuen
 Dateien sofort im LUT-Menue stehen.
 
+Liegt im Ziel noch die alte ARRI_Rec709_zu_LogC.cube (Fassung 1), bleibt sie unangetastet,
+damit bestehende Projekte sich nicht veraendern. Neue Ketten nehmen
+ARRI_Rec709_zu_LogC_v2.cube - die alte Fassung kippt sehr helle Haut nach Rot.
+
 Aufruf:  py luts_installieren.py [--quelle <ordner>] [--unterordner Look]
 """
 import argparse
@@ -46,6 +50,9 @@ def main():
         shutil.copy2(os.path.join(a.quelle, f), os.path.join(ziel, f))
         print("kopiert:", f)
     print("\nZiel:", ziel)
+    if os.path.isfile(os.path.join(ziel, "ARRI_Rec709_zu_LogC.cube")):
+        print("Hinweis: alte ARRI_Rec709_zu_LogC.cube bleibt fuer bestehende Projekte liegen -",
+              "fuer neue Ketten ARRI_Rec709_zu_LogC_v2.cube nehmen (die alte kippt helle Haut nach Rot).")
 
     # Resolve die neuen LUTs melden (falls Resolve laeuft)
     try:
