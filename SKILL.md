@@ -56,7 +56,7 @@ nichts gekauft werden:
 | Node | Skript | Grundlage |
 |---|---|---|
 | 1 | `lut_slog3_zu_arri_rec709.py` | rechnet S-Log3 → ARRI LogC und schickt das durch die ARRI-Wandlung, die in Resolve bereits enthalten ist |
-| 3 | `lut_rec709_zu_arri_logc_v2.py` | kehrt ein monotones Modell dieser ARRI-Wandlung um (Tonwertkurve je Kanal + Matrix) → `ARRI_Rec709_zu_LogC_v2.cube` |
+| 3 | `lut_rec709_zu_arri_logc_v3.py` | kehrt ein monotones Modell dieser ARRI-Wandlung um (Tonwertkurve je Kanal + Matrix), oben mit Knie und Entsättigung → `ARRI_Rec709_zu_LogC_v3.cube` |
 | 4 | `lut_filmemulation_negativ_print.py` | Modell aus Negativ-Dichtekurve, Schichtkopplung und Kopierfilm |
 | 5 | `lut_kinolook_tealorange.py` | Kontrastkurve, Schwarzanhebung, Split-Tone, Entsättigung |
 
@@ -65,11 +65,27 @@ Filmemulationen sind aus echten Filmscans gemessen und in den Farben feiner. Wel
 genau, mit welchen Einstellungen und wo es sie gibt: `referenzen/gekaufte-luts.md`.
 Gemessener Unterschied zwischen freier und gekaufter Variante: `referenzen/messwerte.md`.
 
-⚠ **Für Node 3 immer `ARRI_Rec709_zu_LogC_v2.cube` nehmen.** Die alte
-`ARRI_Rec709_zu_LogC.cube` (Werkzeug `lut_rec709_zu_arri_logc.py`, Newton-Umkehrung) ist
-instabil: ab etwa 85 % Helligkeit im Rotkanal springt sie, helle Haut wird nach der
-Filmemulation schlagartig lachsrot. Bestehende Projekte mit der alten LUT können so
-bleiben; neue Ketten bekommen v2. Details: `referenzen/luts-selbst-erzeugen.md`.
+⚠ **Für Node 3 immer `ARRI_Rec709_zu_LogC_v3.cube` nehmen** (Werkzeug
+`lut_rec709_zu_arri_logc_v3.py`, braucht `lut_rec709_zu_arri_logc_v2.py` im selben Ordner).
+
+- Die alte `ARRI_Rec709_zu_LogC.cube` (Newton-Umkehrung) ist instabil: ab etwa 85 % im
+  Rotkanal springt sie, helle Haut wird nach der Filmemulation schlagartig lachsrot.
+- **Fassung 2 ist bei übersteuertem Material fehlerhaft:** Sie kehrt ARRIs Schulter bis ganz
+  oben um; der letzte Gitterschritt springt (Grau 0,97 → LogC 0,78, 1,00 → 1,00). Ein
+  Kanal am Anschlag (Webcam-Film, ausgefressene Stirn, R = 255) wird zu extrem hellem Rot —
+  eine scharf begrenzte lachs-orange Fläche; ein im Weißabgleich abgeschnittener Blaukanal
+  wird zu hartem Weiß. Fassung 3 folgt der Schulter nur bis Anzeige 0,92 (dort ist die
+  Umkehrung schon doppelt so steil wie in den Mitten), läuft darüber als Parabel aus (Wert
+  und Steigung stetig, Steigung oben höchstens ×2) und zieht Farben, deren größter Kanal
+  über 0,88 liegt, sanft zum Weiß ihrer Helligkeit (bis 30 % am Anschlag; jeder Kanal
+  bleibt monoton). Gemessen auf einer Haut-Rampe in die Übersteuerung, nach der ganzen
+  Kette (v3 → Filmemulation → Kino-Look): Farbton-Sprung je 1 % Eingang v2 9,8°, v3 1,4°
+  (trilinear wie tetraedrisch). Unter 0,875 sind alle Gitterpunkte gleich v2 — richtig
+  belichtete Projekte sehen gleich aus. Weiß (1,1,1) endet nach der Kette bei
+  0,98/0,96/0,91 statt 1,0/1,0/0,97.
+- Bestehende Ketten mit v2 auf v3 umstellen (der Multicam-Runner tut das beim nächsten
+  Look-Schritt selbst); mit v1 dürfen bleiben, besser aber auch umstellen.
+  Details: `referenzen/luts-selbst-erzeugen.md`.
 
 ## Geteilte Nodes statt kopierter Grades
 
@@ -104,6 +120,6 @@ ohne etwas zu ändern.
 - `referenzen/nodekette.md` — warum die Reihenfolge so ist, Werte für Node 2
 - `referenzen/gekaufte-luts.md` — kommerzielle Alternativen, Einstellungen, Bezug
 - `referenzen/messwerte.md` — gemessene Kurven, frei gegen gekauft
-- `referenzen/luts-selbst-erzeugen.md` — wie Node 3 (v2) gerechnet wird, Prüfwerte alt gegen v2
+- `referenzen/luts-selbst-erzeugen.md` — wie Node 3 (v2) gerechnet wird, Prüfwerte alt gegen v2; v3 ergänzt Knie und Entsättigung (siehe oben)
 - `referenzen/fallstricke.md` — was in der Praxis schiefgeht
 - `praesentation/` — der ganze Ablauf grafisch erklärt

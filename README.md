@@ -72,10 +72,14 @@ muss nichts gekauft werden.
   ARRI-Farbwandlung abgeleitet, die DaVinci Resolve bereits mitbringt — diese Datei
   gehört ihren Rechteinhabern und wird hier nicht weitergegeben. `luts_erzeugen.py`
   rechnet beide LUTs in Sekunden aus der lokalen Resolve-Installation.
-- **Node 3 heißt seit Fassung 2 `ARRI_Rec709_zu_LogC_v2.cube`** (Werkzeug
-  `lut_rec709_zu_arri_logc_v2.py`). Die alte `ARRI_Rec709_zu_LogC.cube` aus
-  `lut_rec709_zu_arri_logc.py` ist instabil bei heller Haut (kippt nach Lachsrot) und
-  bleibt nur für bestehende Projekte erhalten.
+- **Node 3 heißt seit Fassung 3 `ARRI_Rec709_zu_LogC_v3.cube`** (Werkzeug
+  `lut_rec709_zu_arri_logc_v3.py`). Fassung 2 kehrt ARRIs Schulter bis ganz oben um und
+  macht aus einem übersteuerten Kanal (ausgefressene Stirn in einem Webcam-Film) eine scharf
+  begrenzte orange oder weiße Fläche; Fassung 3 läuft ab Anzeige 0,92 sanft aus und
+  entsättigt am Anschlag (Farbton-Sprung auf einer Haut-Rampe nach der ganzen Kette:
+  9,8° → 1,4° je 1 % Eingang; unter 0,875 identisch mit v2). Die alte
+  `ARRI_Rec709_zu_LogC.cube` aus `lut_rec709_zu_arri_logc.py` kippt helle Haut nach
+  Lachsrot; v1 und v2 bleiben nur für bestehende Projekte erhalten.
 - **Kommerzielle LUT-Sätze** sind hier ebenfalls nicht enthalten. Wer einen besitzt, kann
   damit die Nodes 3 und 4 ersetzen; welche Datei wohin gehört, steht in
   `referenzen/gekaufte-luts.md`.
